@@ -1,0 +1,9 @@
+*.csproj
+*.sln
+Library/
+obj/
+.vs
+.vsconfig
+*.apk
+Logs/
+Temp
