@@ -49,8 +49,8 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.tag.Equals("bullet") || other.gameObject.tag.Equals("Player"))
         {
             Debug.Log("Destroy");
-            Destroy(other.gameObject);
-            Destroy(gameObject);
+            //Destroy(other.gameObject);
+            //Destroy(gameObject);
         }
         else
         if (other.gameObject.tag.Equals("wall"))

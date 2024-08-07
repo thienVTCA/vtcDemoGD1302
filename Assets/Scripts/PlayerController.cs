@@ -19,10 +19,18 @@ public class PlayerController : MonoBehaviour
     float timeBullet = 0, timeBulletRespawn = 2;
     [SerializeField]
     bool isAutoBullet = false;
+    [SerializeField]
+    int health = 5;
+    AudioSource shootingSound;
+    [SerializeField]
+    List<AudioClip> listAudios;
+    [SerializeField]
+    GameObject ExplosionPrefab;
     // Start is called before the first frame update
     void Start()
     {
         jump = new Vector3(0.0f, 2.0f, 0.0f);
+        shootingSound = GetComponent<AudioSource>();
         //Application.targetFrameRate = 24;
         //if(isAutoBullet)
         //{
@@ -46,10 +54,29 @@ public class PlayerController : MonoBehaviour
         Debug.Log("player  take dam");
         if (collision.gameObject.tag.Equals("bulletEnemy") || collision.gameObject.tag.Equals("Enemy"))
         {
-            Debug.Log("Destroy");
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            if(health > 0)
+            {
+                shootingSound.clip = listAudios[0];
+                shootingSound.Play();
+                health--;
+            }
+            else
+            {
+                Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+                Debug.Log("Destroy");
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
         }
+    }
+
+    IEnumerator IEPlayerDie(Collision col)
+    {
+        Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+        Debug.Log("Destroy");
+        yield return new WaitForSeconds(0.1f);
+        Destroy(col.gameObject);
+        Destroy(gameObject);
     }
 
     // Update is called once per frame
@@ -80,6 +107,8 @@ public class PlayerController : MonoBehaviour
             }
             else
             {
+                shootingSound.clip = listAudios[1];
+                shootingSound.Play();
                 Instantiate(bulletPrefab, gunTransform.position, gunTransform.rotation);
                 timeBullet = 0;
             }

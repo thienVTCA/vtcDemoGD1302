@@ -330,7 +330,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 5094388976452508581, guid: c33fa286eec34064dae6cd7e72147a16, type: 3}
   timeBullet: 2
-  timeBulletRespawn: 2
+  timeBulletRespawn: 1
   gunTransform: {fileID: 2348680750724749968}
   moveSpeed: 3
 --- !u!54 &4284389429999398133
