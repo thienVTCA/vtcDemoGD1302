@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     int health = 2;
     [SerializeField]
-    GameObject ExplosionPrefab;
+    GameObject ExplosionPrefab, HitEffectPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -52,20 +52,26 @@ public class EnemyController : MonoBehaviour
         Debug.Log("EnemyController take dam");
         if (other.gameObject.tag.Equals("bullet") || other.gameObject.tag.Equals("Player"))
         {
-            if(other.gameObject.tag.Equals("bullet") && health > 0)
+            if (other.gameObject.tag.Equals("bullet") && health > 0)
             {
+                Destroy(other.gameObject);
+                Instantiate(HitEffectPrefab, transform.position, Quaternion.identity);
                 health--;
             }
             else if (other.gameObject.tag.Equals("Player") || health == 0)
             {
                 Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-                Debug.Log("Destroy");
+                Debug.Log("Enemy Destroy");
+                UIManager.uiManagerInstance.UpdateEnemiesKilledNumber();
+                if (other.gameObject.tag.Equals("Player"))
+                {
+                    UIManager.uiManagerInstance.GameOver();
+                    Destroy(other.gameObject);
+                }
+                    
                 Destroy(gameObject);
+                
             }
-
-            //Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-            Destroy(other.gameObject);
-            //Destroy(gameObject);
         }
         if (other.gameObject.tag.Equals("wall"))
         {

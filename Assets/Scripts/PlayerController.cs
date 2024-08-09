@@ -20,17 +20,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     bool isAutoBullet = false;
     [SerializeField]
-    int health = 5;
+    int health = 5, maxHealth = 5;
     AudioSource shootingSound;
     [SerializeField]
     List<AudioClip> listAudios;
     [SerializeField]
-    GameObject ExplosionPrefab;
+    GameObject ExplosionPrefab, HitEffectPrefab;
     // Start is called before the first frame update
     void Start()
     {
+        health = maxHealth;
         jump = new Vector3(0.0f, 2.0f, 0.0f);
         shootingSound = GetComponent<AudioSource>();
+        UIManager.uiManagerInstance.UpdatePlayerHealthSlider((float)health / (float)maxHealth);
         //Application.targetFrameRate = 24;
         //if(isAutoBullet)
         //{
@@ -49,22 +51,27 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("player  take dam");
+        Debug.Log("player take dam");
         if (collision.gameObject.tag.Equals("bulletEnemy") || collision.gameObject.tag.Equals("Enemy"))
         {
             if(collision.gameObject.tag.Equals("bulletEnemy") && health > 0)
             {
+                Instantiate(HitEffectPrefab, transform.position, Quaternion.identity);
                 shootingSound.clip = listAudios[0];
                 shootingSound.Play();
                 health--;
+                UIManager.uiManagerInstance.UpdatePlayerHealthSlider((float)health / (float)maxHealth);
+                Destroy(collision.gameObject);
             }
-            else if (collision.gameObject.tag.Equals("Enemy") || health == 0)
+            else if (health == 0)
             {
+                Debug.Log("Player Destroy");
                 Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
-                Debug.Log("Destroy");
+                UIManager.uiManagerInstance.GameOver();
                 Destroy(gameObject);
+                //Destroy(collision.gameObject);
             }
-            Destroy(collision.gameObject);
+            
         }
     }
 
