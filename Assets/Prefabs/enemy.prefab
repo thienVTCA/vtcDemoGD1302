@@ -333,6 +333,8 @@ MonoBehaviour:
   timeBulletRespawn: 1
   gunTransform: {fileID: 2348680750724749968}
   moveSpeed: 3
+  health: 5
+  ExplosionPrefab: {fileID: 8194992990867289339, guid: 99bc28c0d45f51c4fbac01080b73edc7, type: 3}
 --- !u!54 &4284389429999398133
 Rigidbody:
   m_ObjectHideFlags: 0

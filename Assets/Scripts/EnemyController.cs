@@ -12,6 +12,10 @@ public class EnemyController : MonoBehaviour
     Transform gunTransform;
     [SerializeField]
     float moveSpeed;
+    [SerializeField]
+    int health = 2;
+    [SerializeField]
+    GameObject ExplosionPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -48,11 +52,21 @@ public class EnemyController : MonoBehaviour
         Debug.Log("EnemyController take dam");
         if (other.gameObject.tag.Equals("bullet") || other.gameObject.tag.Equals("Player"))
         {
-            Debug.Log("Destroy");
-            //Destroy(other.gameObject);
+            if(other.gameObject.tag.Equals("bullet") && health > 0)
+            {
+                health--;
+            }
+            else if (other.gameObject.tag.Equals("Player") || health == 0)
+            {
+                Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+                Debug.Log("Destroy");
+                Destroy(gameObject);
+            }
+
+            //Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
+            Destroy(other.gameObject);
             //Destroy(gameObject);
         }
-        else
         if (other.gameObject.tag.Equals("wall"))
         {
             Destroy(gameObject);

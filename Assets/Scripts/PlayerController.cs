@@ -44,8 +44,6 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(timeBulletRespawn);
             Instantiate(bulletPrefab, gunTransform.position, gunTransform.rotation);
-            //timeBullet = 0;
-
         }
     }
 
@@ -54,19 +52,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log("player  take dam");
         if (collision.gameObject.tag.Equals("bulletEnemy") || collision.gameObject.tag.Equals("Enemy"))
         {
-            if(health > 0)
+            if(collision.gameObject.tag.Equals("bulletEnemy") && health > 0)
             {
                 shootingSound.clip = listAudios[0];
                 shootingSound.Play();
                 health--;
             }
-            else
+            else if (collision.gameObject.tag.Equals("Enemy") || health == 0)
             {
                 Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
                 Debug.Log("Destroy");
-                Destroy(collision.gameObject);
                 Destroy(gameObject);
             }
+            Destroy(collision.gameObject);
         }
     }
 
@@ -97,10 +95,10 @@ public class PlayerController : MonoBehaviour
         }
         else if(isAutoBullet)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                mRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
-            }
+            //if (Input.GetKeyDown(KeyCode.Space))
+            //{
+            //    mRigidbody.AddForce(jump * jumpForce, ForceMode.Impulse);
+            //}
             if (timeBullet < timeBulletRespawn)
             {
                 timeBullet += Time.deltaTime;
