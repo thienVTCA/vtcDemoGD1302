@@ -20,7 +20,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     bool isAutoBullet = false;
     [SerializeField]
-    int health = 5, maxHealth = 5;
+    int health = 5;
+    int maxHealth = 5;
     AudioSource shootingSound;
     [SerializeField]
     List<AudioClip> listAudios;
