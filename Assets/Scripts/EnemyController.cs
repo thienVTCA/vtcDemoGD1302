@@ -15,7 +15,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     int health = 2;
     [SerializeField]
-    GameObject ExplosionPrefab, HitEffectPrefab;
+    GameObject ExplosionPrefab, HitEffectPrefab, CoinPrefab, BonusPrefab;
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +60,15 @@ public class EnemyController : MonoBehaviour
             }
             else if (other.gameObject.tag.Equals("Player") || health == 0)
             {
+                int iBonus = Random.Range(0, 3);
+                if(iBonus > 0)
+                {
+                    Instantiate(BonusPrefab, transform.position, BonusPrefab.transform.rotation);
+                }
+                else
+                {
+                    Instantiate(CoinPrefab, transform.position, CoinPrefab.transform.rotation);
+                }
                 Instantiate(ExplosionPrefab, transform.position, Quaternion.identity);
                 Debug.Log("Enemy Destroy");
                 UIManager.uiManagerInstance.UpdateEnemiesKilledNumber();
@@ -68,9 +77,7 @@ public class EnemyController : MonoBehaviour
                     UIManager.uiManagerInstance.GameOver();
                     Destroy(other.gameObject);
                 }
-                    
                 Destroy(gameObject);
-                
             }
         }
         if (other.gameObject.tag.Equals("wall"))

@@ -72,8 +72,28 @@ public class PlayerController : MonoBehaviour
                 Destroy(gameObject);
                 //Destroy(collision.gameObject);
             }
-            
         }
+        else if (collision.gameObject.tag.Equals("gold"))
+        {
+            Debug.Log("Player get golds");
+            // add coin to player infor
+            UIManager.uiManagerInstance.PlayerGetCoins(1);
+            Destroy(collision.gameObject);
+        } 
+        else if (collision.gameObject.tag.Equals("bonus"))
+        {
+            // player get bonus
+            GetBonus(collision.gameObject);
+        }
+
+    }
+
+    void GetBonus(GameObject bonus)
+    {
+        Debug.Log("Player get  GetBonus");
+        BonusController bController = bonus.GetComponent<BonusController>();
+        bulletPrefab = bController.listBonusPrefab[bController.BonusType];
+        Destroy(bonus);
     }
 
     IEnumerator IEPlayerDie(Collision col)

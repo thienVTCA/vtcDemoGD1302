@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
     Text enemiesKilledNumberText;
     int enemiesKilledNumber = 0;
     [SerializeField]
+    Text playerCoinsText;
+    int playerCoins = 0;
+    [SerializeField]
     Slider playerHealthSlider;
     [SerializeField]
     GameObject inGamePanel, endGamePanel;
@@ -22,17 +25,24 @@ public class UIManager : MonoBehaviour
     }
     void Start()
     {
+        playerCoins = 0;
         inGamePanel.SetActive(true);
         endGamePanel.SetActive(false);
         enemiesKilledNumber = 0;
         enemiesKilledNumberText.text = "0";
+        playerCoinsText.text = "0";
     }
 
     public void UpdateEnemiesKilledNumber()
     {
         enemiesKilledNumber++;
         enemiesKilledNumberText.text = "" + enemiesKilledNumber;
+    }
 
+    public void PlayerGetCoins(int coinNumber)
+    {
+        playerCoins += coinNumber;
+        playerCoinsText.text = "" + playerCoins;
     }
 
     public void GameOver()
